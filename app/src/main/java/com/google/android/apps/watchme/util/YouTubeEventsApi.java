@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class YouTubeApi {
+public class YouTubeEventsApi {
 
     public static final String RTMP_URL_KEY = "rtmpUrl";
     public static final String BROADCAST_ID_KEY = "broadcastId";

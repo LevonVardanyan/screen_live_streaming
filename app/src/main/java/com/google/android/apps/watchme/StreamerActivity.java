@@ -31,10 +31,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.apps.watchme.util.YouTubeApi;
+import com.google.android.apps.watchme.util.YouTubeEventsApi;
 
 import java.nio.ByteBuffer;
 
@@ -89,9 +88,9 @@ public class StreamerActivity extends Activity {
         Toast.makeText(StreamerActivity.this, "Please, wait 20 second and your event will be started", Toast.LENGTH_SHORT).show();
         projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
 
-        broadcastId = getIntent().getStringExtra(YouTubeApi.BROADCAST_ID_KEY);
+        broadcastId = getIntent().getStringExtra(YouTubeEventsApi.BROADCAST_ID_KEY);
 
-        rtmpUrl = getIntent().getStringExtra(YouTubeApi.RTMP_URL_KEY);
+        rtmpUrl = getIntent().getStringExtra(YouTubeEventsApi.RTMP_URL_KEY);
 
 
 
@@ -114,7 +113,7 @@ public class StreamerActivity extends Activity {
 
     public void endEvent() {
         Intent data = new Intent();
-        data.putExtra(YouTubeApi.BROADCAST_ID_KEY, broadcastId);
+        data.putExtra(YouTubeEventsApi.BROADCAST_ID_KEY, broadcastId);
         if (getParent() == null) {
             setResult(Activity.RESULT_OK, data);
         } else {

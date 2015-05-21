@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.apps.watchme.util.EventData;
-import com.google.android.apps.watchme.util.YouTubeApi;
+import com.google.android.apps.watchme.util.YouTubeEventsApi;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
@@ -203,8 +203,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Goog
         new StartEventTask().execute(broadcastId);
 
         Intent intent = new Intent(getApplicationContext(), StreamerActivity.class);
-        intent.putExtra(YouTubeApi.RTMP_URL_KEY, event.getIngestionAddress());
-        intent.putExtra(YouTubeApi.BROADCAST_ID_KEY, broadcastId);
+        intent.putExtra(YouTubeEventsApi.RTMP_URL_KEY, event.getIngestionAddress());
+        intent.putExtra(YouTubeEventsApi.BROADCAST_ID_KEY, broadcastId);
 
         startActivityForResult(intent, REQUEST_STREAMER);
     }
@@ -261,7 +261,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Goog
                 break;
             case REQUEST_STREAMER:
                 if (resultCode == Activity.RESULT_OK && data != null && data.getExtras() != null) {
-                    String broadcastId = data.getStringExtra(YouTubeApi.BROADCAST_ID_KEY);
+                    String broadcastId = data.getStringExtra(YouTubeEventsApi.BROADCAST_ID_KEY);
                     if (broadcastId != null) {
                         new EndEventTask().execute(broadcastId);
                     }
@@ -316,8 +316,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Goog
             YouTube youtube = new YouTube.Builder(transport, jsonFactory, credential).setApplicationName(APP_NAME).build();
             try {
                 String date = new Date().toString();
-                YouTubeApi.createLiveEvent(youtube, "Event - " + date, "A live streaming event - " + date);
-                return YouTubeApi.getLiveEvents(youtube);
+                YouTubeEventsApi.createLiveEvent(youtube, "Event - " + date, "A live streaming event - " + date);
+                return YouTubeEventsApi.getLiveEvents(youtube);
 
             } catch (UserRecoverableAuthIOException e) {
                 startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
@@ -344,7 +344,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Goog
         protected Void doInBackground(String... params) {
             YouTube youtube = new YouTube.Builder(transport, jsonFactory, credential).setApplicationName(APP_NAME).build();
             try {
-                YouTubeApi.startEvent(youtube, params[0]);
+                YouTubeEventsApi.startEvent(youtube, params[0]);
             } catch (UserRecoverableAuthIOException e) {
                 startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
             } catch (IOException e) {
@@ -370,7 +370,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Goog
             YouTube youtube = new YouTube.Builder(transport, jsonFactory, credential).setApplicationName(APP_NAME).build();
             try {
                 if (params.length >= 1) {
-                    YouTubeApi.endEvent(youtube, params[0]);
+                    YouTubeEventsApi.endEvent(youtube, params[0]);
                 }
             } catch (UserRecoverableAuthIOException e) {
                 startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
