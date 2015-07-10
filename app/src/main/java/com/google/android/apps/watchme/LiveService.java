@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 public class LiveService extends IntentService {
     private VideoStreamingConnection videoStreamingConnection;
@@ -43,9 +44,11 @@ public class LiveService extends IntentService {
         @Override
         public void run() {
             if (videoStreamingConnection != null) {
-                    if (sameData != null) {
-                        videoStreamingConnection.sendVideoFrame(sameData.clone());
-                    }
+                if (sameData != null) {
+                    long start = System.currentTimeMillis();
+                    videoStreamingConnection.sendVideoFrame(sameData.clone());
+                    Log.d("time ", "same data " +  String.valueOf(System.currentTimeMillis() - start));
+                }
             }
             mHandler.postDelayed(mStatusChecker, 0);
 
@@ -65,9 +68,11 @@ public class LiveService extends IntentService {
     }
 
     public void encode(byte[] rgbaData) {
+        long start = System.currentTimeMillis();
         sameData = rgbaData.clone();
-            videoStreamingConnection.sendVideoFrame(rgbaData);
+        videoStreamingConnection.sendVideoFrame(rgbaData);
         setImageAvailable(false);
+        Log.d("time " , "new data " + String.valueOf(System.currentTimeMillis() - start));
     }
 
     public class LocalBinder extends Binder {

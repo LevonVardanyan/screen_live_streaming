@@ -18,6 +18,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDir 'src/main/libs'
+            sourceSets.main.jni.srcDirs = []
+        }
+    }
+
+    productFlavors {
+        armv7 {
+            versionCode 1
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+        }
+    }
 }
 
 dependencies {
