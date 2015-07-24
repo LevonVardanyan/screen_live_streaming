@@ -6,6 +6,8 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 
+import java.nio.ByteBuffer;
+
 public class LiveService extends IntentService {
     private VideoStreamingConnection videoStreamingConnection;
     private final IBinder binder = new LocalBinder();
@@ -14,6 +16,7 @@ public class LiveService extends IntentService {
     private boolean imageAvailable = false;
     private Handler mHandler;
     private byte[] rgbaData;
+    private MP4Writer mp4Writer;
 
     public LiveService() {
         this("name");
@@ -44,7 +47,7 @@ public class LiveService extends IntentService {
         public void run() {
             if (videoStreamingConnection != null) {
                     if (sameData != null) {
-                        videoStreamingConnection.sendVideoFrame(sameData.clone());
+//                        videoStreamingConnection.sendVideoFrame(sameData.clone());
                     }
             }
             mHandler.postDelayed(mStatusChecker, 0);
@@ -61,12 +64,18 @@ public class LiveService extends IntentService {
     }
 
     public void startStreaming(String rtmpUrl, int width, int height) {
-        videoStreamingConnection.open(rtmpUrl, width, height);
+//        videoStreamingConnection.open(rtmpUrl, width, height);
+        mp4Writer = new MP4Writer();
+        mp4Writer.initWithParams();
     }
 
     public void encode(byte[] rgbaData) {
         sameData = rgbaData.clone();
-            videoStreamingConnection.sendVideoFrame(rgbaData);
+//            videoStreamingConnection.sendVideoFrame(rgbaData);
+        if (mp4Writer != null) {
+            ByteBuffer byteBufferH264 = mp4Writer.encode(rgbaData);
+            System.out.println();
+        }
         setImageAvailable(false);
     }
 
