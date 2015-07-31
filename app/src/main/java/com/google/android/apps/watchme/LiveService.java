@@ -16,7 +16,7 @@ public class LiveService extends IntentService {
     private boolean imageAvailable = false;
     private Handler mHandler;
     private byte[] rgbaData;
-    private MP4Writer mp4Writer;
+    private Encoder encoder;
 
     public LiveService() {
         this("name");
@@ -65,15 +65,14 @@ public class LiveService extends IntentService {
 
     public void startStreaming(String rtmpUrl, int width, int height) {
 //        videoStreamingConnection.open(rtmpUrl, width, height);
-        mp4Writer = new MP4Writer();
-        mp4Writer.initWithParams();
+        encoder = Encoder.getInstance();
     }
 
     public void encode(byte[] rgbaData) {
         sameData = rgbaData.clone();
 //            videoStreamingConnection.sendVideoFrame(rgbaData);
-        if (mp4Writer != null) {
-            ByteBuffer byteBufferH264 = mp4Writer.encode(rgbaData);
+        if (encoder != null) {
+            ByteBuffer byteBufferH264 = encoder.encode(rgbaData);
             System.out.println();
         }
         setImageAvailable(false);

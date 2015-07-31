@@ -121,7 +121,9 @@
     <orderEntry type="library" exported="" name="play-services-nearby-7.3.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-oauth-client-1.20.0" level="project" />
+    <orderEntry type="library" exported="" name="netty-codec-http-5.0.0.Alpha2-sources" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-gson-1.20.0" level="project" />
+    <orderEntry type="library" exported="" name="netty-codec-http-5.0.0.Alpha2" level="project" />
     <orderEntry type="library" exported="" name="play-services-7.3.0" level="project" />
   </component>
 </module>
